@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const initializeFirebase = () => {
   const config = {
-    messagingSenderId: "1029048879297"
+    messagingSenderId: "938053603087"
   };
   firebase.initializeApp(config);
   // navigator.serviceWorker.register("/service-worker.js").then(registration => {
@@ -17,11 +17,14 @@ export const askForPermissioToReceiveNotifications = async () => {
     const token = await messaging.getToken();
     console.log("token :", token);
     localStorage.setItem("notification-token", token);
-    axios.put(
-      "https://jwrr2fa8mf.execute-api.us-east-1.amazonaws.com/p3/notificationtoken",
-      {
-        owner: "madan@hcl.com",
-        notificationToken: token.toString()
+    fetch(
+      "https://6e8e068474b8.ngrok.io/subscribers",{
+        method: "POST",
+        body: JSON.stringify(
+          {
+            empID: "50000658",
+            subscription: token.toString()
+          })
       }
     );
     return token;
